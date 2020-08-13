@@ -1,5 +1,7 @@
 # geom-api-ts-client
 
+[![Build Status](https://travis-ci.com/nexioinformatica/geom-api-ts-client.svg)](https://travis-ci.com/nexioinformatica/geom-api-ts-client)
+[![Coverage Status](https://coveralls.io/repos/github/nexioinformatica/geom-api-ts-client/badge.svg)](https://coveralls.io/github/nexioinformatica/geom-api-ts-client)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/beeman/geom-api-ts-client.svg)
 ![GitHub repo size](https://img.shields.io/github/repo-size/beeman/geom-api-ts-client.svg)
 ![npm](https://img.shields.io/npm/dw/geom-api-ts-client.svg)
