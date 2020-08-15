@@ -1,1 +1,3 @@
-export const greet = (name: string): string => `Hello ${name}`;
+import * as Request from "./common/api";
+
+export { Request };
