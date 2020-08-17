@@ -1,6 +1,7 @@
 import * as t from "io-ts";
 
-export type ResourceId = number;
+export const ResourceIdC = t.number;
+export type ResourceId = t.TypeOf<typeof ResourceIdC>;
 
 // Note: we do not find a way to export the CollectionDoc type with
 // t.TypeOf construct, so we opted to export the instantiated type.

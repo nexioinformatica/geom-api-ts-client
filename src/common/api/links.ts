@@ -12,4 +12,9 @@ export const links = {
     me: () => "/operatori/me",
   }),
   barcode_decode: () => "/barcode-decode",
+  warehouse: () => ({
+    movement: () => ({
+      create: () => "/movimenti-magazzino",
+    }),
+  }),
 };
