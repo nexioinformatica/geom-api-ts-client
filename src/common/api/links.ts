@@ -6,6 +6,9 @@ import { ResourceId } from "../structs";
  * All available endpoints for GeOM APIs.
  */
 export const links = {
+  auth: () => ({
+    token: () => "/token",
+  }),
   operators: () => ({
     collection: () => "/operatori",
     single: (id: ResourceId) => `/operatori/${id}`,
