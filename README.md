@@ -22,7 +22,7 @@ TODO
 ## Credits
 
 - [Luca Parolari](https://github.com/lparolari)
-- [All contributors](hhttps://github.com/nexioinformatica/geom-api-ts-client/contributors)
+- [All contributors](https://github.com/nexioinformatica/geom-api-ts-client/contributors)
 
 ## License
 
