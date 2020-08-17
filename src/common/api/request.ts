@@ -9,7 +9,7 @@ import { pipe } from "fp-ts/lib/pipeable";
 import * as t from "io-ts";
 import { QueryParams, formatParams, paramsStarter } from "./query";
 import { Settings } from "./settings";
-import { Token, getTokenType, getAccessToken } from "../../auth";
+import { Token } from "../../auth/token";
 import { VERSION } from "./version";
 import { decodeWith } from "./codec";
 
@@ -102,10 +102,7 @@ export function makeRequest<T>(
   const headers = pipe(
     {},
     addHeader("X-ApiKey", settings && settings.apiKey),
-    addHeader(
-      "Authorization",
-      token && `${getTokenType(token)} ${getAccessToken(token)}`,
-    ),
+    addHeader("Authorization", token && `Bearer ${token}`),
   );
 
   const config: AxiosRequestConfig = {

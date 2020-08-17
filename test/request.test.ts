@@ -109,7 +109,7 @@ describe("make signal", () => {
 describe("make request", () => {
   const mockUrl = "https://www.foobar.baz/api/v1/example";
 
-  test("it builds request with API key and plain string token", async () => {
+  test("it builds request with right headers", async () => {
     const headers = {
       "X-ApiKey": "my-secret-api-key",
       Authorization: "Bearer 1234",
@@ -123,36 +123,6 @@ describe("make request", () => {
       makeRequest<HelloType>({ url: mockUrl }, Hello, "1234", {
         apiKey: "my-secret-api-key",
       }),
-      TE.fold(taskNever, taskOf),
-    )();
-
-    await expect(promise).resolves.toEqual({ hello: "world" });
-  });
-
-  test("it builds request from token object", async () => {
-    const headers = {
-      "X-ApiKey": "my-secret-api-key",
-      Authorization: "Bearer 1234",
-    };
-
-    mock
-      .onGet(mockUrl, undefined, expect.objectContaining(headers))
-      .reply(204, { hello: "world" });
-
-    const promise = pipe(
-      makeRequest<HelloType>(
-        { url: mockUrl },
-        Hello,
-        {
-          access_token: "1234",
-          token_type: "Bearer",
-          expires_in: 3600,
-          refresh_token: "5678",
-        },
-        {
-          apiKey: "my-secret-api-key",
-        },
-      ),
       TE.fold(taskNever, taskOf),
     )();
 

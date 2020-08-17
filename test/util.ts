@@ -32,17 +32,3 @@ export const taskExpectInstanceOf = (expected: string) => <U>(
 export function getMockAdapter(): MockAdapter {
   return new MockAdapter(axios);
 }
-
-export function logAxiosRequests() {
-  axios.interceptors.request.use((v) => {
-    console.log(v);
-    return v;
-  });
-}
-
-export function logAxiosResponses() {
-  axios.interceptors.response.use((v) => {
-    console.log(v);
-    return v;
-  });
-}
