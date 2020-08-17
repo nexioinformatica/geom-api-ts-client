@@ -10,7 +10,6 @@ import * as t from "io-ts";
 import { QueryParams, formatParams, paramsStarter } from "./query";
 import { Settings } from "./settings";
 import { Token } from "../../auth/token";
-import { ApiKey } from "./settings";
 import { VERSION } from "./version";
 import { decodeWith } from "./codec";
 
@@ -33,8 +32,9 @@ export type BaseParams<T = QueryParams> = {
 
 export type StandardParams<T = QueryParams> = BaseParams<T> & {
   token: Token | string;
-  apiKey: ApiKey;
 };
+
+export type PublicParams<T = QueryParams> = BaseParams<T>;
 
 export function makeUrl(settings?: Settings, websocket?: boolean): string {
   let secure = true;

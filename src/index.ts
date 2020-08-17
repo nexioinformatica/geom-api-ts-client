@@ -1,3 +1,10 @@
 import * as Request from "./common/api";
 
-export { Request };
+import * as Operator from "./resources/operators";
+
+export {
+  // api common
+  Request,
+  // resources
+  Operator,
+};

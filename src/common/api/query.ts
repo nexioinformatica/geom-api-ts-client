@@ -9,7 +9,7 @@ export interface QueryParams<
   /**
    * Query params object, i.e., {foo: "dog", bar: 1, baz: true}.
    */
-  query?: Partial<Record<F, string | number | boolean>>;
+  params?: Partial<Record<F, string | number | boolean>>;
 }
 
 export function formatParams(q: QueryParams | undefined): string {
@@ -17,7 +17,7 @@ export function formatParams(q: QueryParams | undefined): string {
     return "";
   }
 
-  const obj = q.query;
+  const obj = q.params;
 
   const str = [];
   for (const p in obj) {
