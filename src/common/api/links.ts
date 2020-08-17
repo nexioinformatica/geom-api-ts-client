@@ -19,5 +19,8 @@ export const links = {
   }),
   activities: () => ({
     start: () => "/attivita/start",
+    types: () => ({
+      collection: () => "/tipi-attivita",
+    }),
   }),
 };

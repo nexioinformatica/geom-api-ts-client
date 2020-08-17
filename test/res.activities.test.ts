@@ -34,3 +34,51 @@ describe("activities", () => {
     await expect(promise).resolves.toEqual(mockActivity);
   });
 });
+
+describe("activity types", () => {
+  const mockActivityTypes = [
+    {
+      IdTipoAttivita: 1,
+      Codice: "TA_ATT",
+      Descrizione: "Attrezzaggio",
+    },
+    {
+      IdTipoAttivita: 2,
+      Codice: "TA_CARSCA",
+      Descrizione: "Carico/Scarico",
+    },
+  ];
+
+  test("it gets collection", async () => {
+    mockAxios
+      .onGet(`https://${mockUrl}${mockVersion}/tipi-attivita`)
+      .reply(200, mockActivityTypes);
+
+    const promise = pipe(
+      Activities.ActivityType.getCollection({
+        token: "my-token-123",
+        settings: { url: mockUrl },
+      }),
+      TE.fold(taskNever, taskOf),
+    )();
+
+    await expect(promise).resolves.toEqual(mockActivityTypes);
+  });
+
+  test("it gets collection with filters", async () => {
+    mockAxios
+      .onGet(`https://${mockUrl}${mockVersion}/tipi-attivita?IdFase=1`)
+      .reply(200, [mockActivityTypes[0]]);
+
+    const promise = pipe(
+      Activities.ActivityType.getCollection({
+        query: { params: { IdFase: 1 } },
+        token: "my-token-123",
+        settings: { url: mockUrl },
+      }),
+      TE.fold(taskNever, taskOf),
+    )();
+
+    await expect(promise).resolves.toEqual([mockActivityTypes[0]]);
+  });
+});
