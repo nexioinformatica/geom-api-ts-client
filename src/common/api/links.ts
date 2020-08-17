@@ -11,4 +11,5 @@ export const links = {
     single: (id: ResourceId) => `/operatori/${id}`,
     me: () => "/operatori/me",
   }),
+  barcode_decode: () => "/barcode-decode",
 };
