@@ -17,4 +17,7 @@ export const links = {
       create: () => "/movimenti-magazzino",
     }),
   }),
+  activities: () => ({
+    start: () => "/attivita/start",
+  }),
 };
