@@ -17,17 +17,18 @@ const OperatorC = t.type(
   "OperatorC",
 );
 
+const CollectionC = CollectionDocC(OperatorC);
+
+const SingleC = OperatorC;
+
+export type Barcode = t.TypeOf<typeof OperatorC>;
+export type Collection = t.TypeOf<typeof CollectionC>;
+export type Single = t.TypeOf<typeof SingleC>;
+
 export type OperatorsQuery = QueryParams<
   "AbilitatoAPI" | "AbilitatoAttivitaReparto"
 >;
-
 export type OperatorQuery = QueryParams<"">;
-
-const Collection = CollectionDocC(OperatorC);
-export type Collection = t.TypeOf<typeof Collection>;
-
-const Single = OperatorC;
-export type Single = t.TypeOf<typeof Single>;
 
 export function getCollection(
   params: PublicParams<OperatorsQuery>,
@@ -35,7 +36,7 @@ export function getCollection(
   return Request.getRequest<Collection>({
     ...params,
     target: links.operators().collection(),
-    codec: Collection,
+    codec: CollectionC,
   });
 }
 
@@ -45,7 +46,7 @@ export function getSingle(
   return Request.getRequest<Single>({
     ...params,
     target: links.operators().single(params.IdOperatore),
-    codec: Single,
+    codec: SingleC,
   });
 }
 
@@ -55,6 +56,6 @@ export function getMe(
   return Request.getRequest<Single>({
     ...params,
     target: links.operators().me(),
-    codec: Single,
+    codec: SingleC,
   });
 }

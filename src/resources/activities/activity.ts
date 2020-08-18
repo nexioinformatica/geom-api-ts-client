@@ -32,6 +32,7 @@ const ActivityC = t.intersection([
 ]);
 
 export type Activity = t.TypeOf<typeof ActivityC>;
+export type ActionType = t.TypeOf<typeof ActionTypeC>;
 
 export type StartActivityQuery = QueryParams<"">;
 
