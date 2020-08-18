@@ -37,3 +37,29 @@ describe("warehouse movements", () => {
     await expect(promise).resolves.toEqual(mockMovement);
   });
 });
+
+describe("warehouse reasons", () => {
+  test("it gets collection", async () => {
+    const mockReasons: Warehouse.Reason.Collection = [
+      {
+        IdCausale: 14,
+        Codice: "VEN",
+        Descrizione: "Vendita",
+      },
+    ];
+
+    mockAxios
+      .onGet(`https://${mockUrl}${mockVersion}/causali-magazzino`)
+      .reply(200, mockReasons);
+
+    const promise = pipe(
+      Warehouse.Reason.getCollection({
+        token: "my-token-123",
+        settings: { url: mockUrl },
+      }),
+      TE.fold(taskNever, taskOf),
+    )();
+
+    await expect(promise).resolves.toEqual(mockReasons);
+  });
+});

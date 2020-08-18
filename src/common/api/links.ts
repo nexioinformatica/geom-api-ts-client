@@ -19,6 +19,9 @@ export const links = {
     movement: () => ({
       create: () => "/movimenti-magazzino",
     }),
+    reasons: () => ({
+      collection: () => "/causali-magazzino",
+    }),
   }),
   activities: () => ({
     start: () => "/attivita/start",
