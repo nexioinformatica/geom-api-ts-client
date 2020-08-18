@@ -13,7 +13,7 @@ beforeEach(() => {
 
 describe("barcode-decode successful responses", () => {
   test("it decodes lot", async () => {
-    const lot = { Tipo: "L", Id: { IdLotto: 3 } };
+    const lot = [{ Tipo: "L", Id: { IdLotto: 3 } }];
 
     mockAxios
       .onPost(
@@ -25,7 +25,6 @@ describe("barcode-decode successful responses", () => {
     const promise = pipe(
       Barcode.decode({
         value: { Code: "L123" },
-        token: "my-token-123",
         settings: { url: mockUrl },
       }),
       TE.fold(taskNever, taskOf),
@@ -35,7 +34,9 @@ describe("barcode-decode successful responses", () => {
   });
 
   test("it decodes freshman", async () => {
-    const freshman = { Tipo: "M", Id: { IdMatricola: 3, Matricola: "12345" } };
+    const freshman = [
+      { Tipo: "M", Id: { IdMatricola: 3, Matricola: "12345" } },
+    ];
 
     mockAxios
       .onPost(
@@ -47,7 +48,6 @@ describe("barcode-decode successful responses", () => {
     const promise = pipe(
       Barcode.decode({
         value: { Code: "M123" },
-        token: "my-token-123",
         settings: { url: mockUrl },
       }),
       TE.fold(taskNever, taskOf),

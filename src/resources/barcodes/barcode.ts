@@ -2,7 +2,8 @@ import * as t from "io-ts";
 import * as TE from "fp-ts/lib/TaskEither";
 import * as Request from "../../common/api/request";
 import { links } from "../../common/api";
-import { QueryParams, StandardParams } from "../../common/api";
+import { QueryParams } from "../../common/api";
+import { CollectionDocC } from "../../common/structs";
 
 const BarcodeDecodeTypeC = t.union([
   t.literal("O"), // Operatore
@@ -19,10 +20,12 @@ const BarcodeDecodeTypeC = t.union([
 
 const FreshmanC = t.any;
 
-const BarcodeDecodeC = t.type({
-  Tipo: BarcodeDecodeTypeC,
-  Id: FreshmanC,
-});
+const BarcodeDecodeC = CollectionDocC(
+  t.type({
+    Tipo: BarcodeDecodeTypeC,
+    Id: FreshmanC,
+  }),
+);
 
 const CodeC = t.type({
   Code: t.string,
@@ -36,7 +39,7 @@ export type Freshman = t.TypeOf<typeof FreshmanC>;
 export type BarcodeDecodeQuery = QueryParams<"">;
 
 export function decode(
-  params: StandardParams<BarcodeDecodeQuery> & { value: Code },
+  params: Request.PublicParams<BarcodeDecodeQuery> & { value: Code },
 ): TE.TaskEither<Error, BarcodeDecode> {
   return Request.postRequest<Code, BarcodeDecode>({
     ...params,
