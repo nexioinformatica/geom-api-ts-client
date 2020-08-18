@@ -28,10 +28,12 @@ const CodeC = t.type({
   Code: t.string,
 });
 
-type Code = t.TypeOf<typeof CodeC>;
-type BarcodeDecode = t.TypeOf<typeof BarcodeDecodeC>;
+export type Code = t.TypeOf<typeof CodeC>;
+export type BarcodeDecode = t.TypeOf<typeof BarcodeDecodeC>;
+export type BarcodeDecodeType = t.TypeOf<typeof BarcodeDecodeTypeC>;
+export type Freshman = t.TypeOf<typeof FreshmanC>;
 
-type BarcodeDecodeQuery = QueryParams<"">;
+export type BarcodeDecodeQuery = QueryParams<"">;
 
 export function decode(
   params: StandardParams<BarcodeDecodeQuery> & { value: Code },

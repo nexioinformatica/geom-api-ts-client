@@ -1,8 +1,7 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Auth } from "../src";
+import { Authentication, Auth } from "../src";
 import { getMockAdapter, taskOf, taskNever } from "./util";
-import { Grant } from "../src/auth";
 
 const mockAxios = getMockAdapter();
 const mockUrl = "www.foobar.baz";
@@ -14,7 +13,7 @@ beforeEach(() => {
 
 describe("auth", () => {
   test("it logins with username/password", async () => {
-    const mockAuthData: Grant.Password = {
+    const mockAuthData: Auth.Grant.Password = {
       username: "foo",
       password: "secret",
       grant_type: "password",
@@ -35,7 +34,7 @@ describe("auth", () => {
       .reply(200, mockToken);
 
     const promise = pipe(
-      Auth.login({ settings: { url: mockUrl }, value: mockAuthData }),
+      Authentication.login({ settings: { url: mockUrl }, value: mockAuthData }),
       TE.fold(taskNever, taskOf),
     )();
 
@@ -43,7 +42,7 @@ describe("auth", () => {
   });
 
   test("it logins with refresh token", async () => {
-    const mockAuthData: Grant.RefreshToken = {
+    const mockAuthData: Auth.Grant.RefreshToken = {
       refresh_token: "cde456",
       grant_type: "refresh_token",
     };
@@ -59,7 +58,10 @@ describe("auth", () => {
       .reply(200, mockToken);
 
     const promise = pipe(
-      Auth.refresh({ settings: { url: mockUrl }, value: mockAuthData }),
+      Authentication.refresh({
+        settings: { url: mockUrl },
+        value: mockAuthData,
+      }),
       TE.fold(taskNever, taskOf),
     )();
 
