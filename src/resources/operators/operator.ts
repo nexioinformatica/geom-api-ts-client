@@ -21,7 +21,7 @@ const CollectionC = CollectionDocC(OperatorC);
 
 const SingleC = OperatorC;
 
-export type Barcode = t.TypeOf<typeof OperatorC>;
+export type Operator = t.TypeOf<typeof OperatorC>;
 export type Collection = t.TypeOf<typeof CollectionC>;
 export type Single = t.TypeOf<typeof SingleC>;
 
