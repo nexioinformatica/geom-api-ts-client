@@ -14,7 +14,7 @@ beforeEach(() => {
 
 describe("warehouse movements", () => {
   test("it creates new warehouse movement", async () => {
-    const mockMovement: Warehouse.Movement.Movement = {
+    const mockMovement: Warehouse.Movement.NewMovement = {
       TipoCausale: ReasonTypeKey.LoadScrap,
       Quantita: [50],
       Matricole: [1, 2, 3],
@@ -23,7 +23,22 @@ describe("warehouse movements", () => {
 
     mockAxios
       .onPost(`https://${mockUrl}${mockVersion}/movimenti-magazzino`)
-      .reply((config) => [200, config.data]);
+      .reply((config) => {
+        const d = JSON.parse(config.data);
+        return [
+          200,
+          {
+            Code: 1,
+            Messaggio: null,
+            Oggetto: {
+              IdMovimento: 1,
+              Quantita: d.Quantita,
+              Matricole: d.Matricole,
+              Note: d.Note,
+            },
+          },
+        ];
+      });
 
     const promise = pipe(
       Warehouse.Movement.create({
@@ -34,7 +49,16 @@ describe("warehouse movements", () => {
       TE.fold(taskNever, taskOf),
     )();
 
-    await expect(promise).resolves.toEqual(mockMovement);
+    await expect(promise).resolves.toEqual({
+      Code: 1,
+      Messaggio: null,
+      Oggetto: {
+        IdMovimento: 1,
+        Quantita: [50],
+        Matricole: [1, 2, 3],
+        Note: "foo",
+      },
+    });
   });
 });
 
