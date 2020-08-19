@@ -13,14 +13,17 @@ beforeEach(() => {
 
 describe("activities", () => {
   test("it starts new activity", async () => {
-    const mockActivity: Activities.Activity = {
+    const mockActivity: Activities.NewActivity = {
       TipoAzione: Activities.ActionTypeKey.MachineAndOperator,
       IdTipoAttivita: 3,
     };
 
     mockAxios
       .onPost(`https://${mockUrl}${mockVersion}/attivita/start`)
-      .reply((config) => [200, config.data]);
+      .reply((config) => [
+        200,
+        { Code: 1, Messaggio: null, Oggetto: JSON.parse(config.data) },
+      ]);
 
     const promise = pipe(
       Activities.start({
@@ -31,7 +34,11 @@ describe("activities", () => {
       TE.fold(taskNever, taskOf),
     )();
 
-    await expect(promise).resolves.toEqual(mockActivity);
+    await expect(promise).resolves.toEqual({
+      Code: 1,
+      Messaggio: null,
+      Oggetto: mockActivity,
+    });
   });
 });
 

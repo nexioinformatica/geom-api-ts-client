@@ -3,7 +3,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import * as Request from "../../common/api/request";
 import { links } from "../../common/api";
 import { QueryParams, StandardParams } from "../../common/api";
-import { ResourceIdC } from "../../common/structs";
+import { ResourceIdC, ResultC } from "../../common/structs";
 
 export enum ActionTypeKey {
   MachineAndOperator = 1,
@@ -17,7 +17,7 @@ const ActionTypeC = t.union([
   t.literal(ActionTypeKey.Operator),
 ]);
 
-const ActivityC = t.intersection([
+const NewActivityC = t.intersection([
   t.type({
     TipoAzione: ActionTypeC,
     IdTipoAttivita: ResourceIdC,
@@ -31,15 +31,19 @@ const ActivityC = t.intersection([
   }),
 ]);
 
+// FIXME: issue #2
+const ActivityC = ResultC(t.any);
+
+export type NewActivity = t.TypeOf<typeof NewActivityC>;
 export type Activity = t.TypeOf<typeof ActivityC>;
 export type ActionType = t.TypeOf<typeof ActionTypeC>;
 
 export type StartActivityQuery = QueryParams<"">;
 
 export function start(
-  params: StandardParams<StartActivityQuery> & { value: Activity },
+  params: StandardParams<StartActivityQuery> & { value: NewActivity },
 ): TE.TaskEither<Error, Activity> {
-  return Request.postRequest<Activity, Activity>({
+  return Request.postRequest<NewActivity, Activity>({
     ...params,
     target: links.activities().start(),
     codec: ActivityC,
