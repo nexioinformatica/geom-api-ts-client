@@ -28,6 +28,10 @@ export const links = {
     types: () => ({
       collection: () => "/tipi-attivita",
     }),
+    collection: () => ({
+      operator: (id: ResourceId) => `/operatori/${id}/attivita`,
+      machine: (id: ResourceId) => `/macchine/${id}/attivita`,
+    }),
   }),
   machines: () => ({
     collection: () => "/macchine",

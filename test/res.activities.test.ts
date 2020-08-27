@@ -1,7 +1,7 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Activities } from "../src";
-import { getMockAdapter, taskOf, taskNever } from "./util";
+import { getMockAdapter, taskOf, taskNever, taskFail } from "./util";
 
 const mockAxios = getMockAdapter();
 const mockUrl = "www.foobar.baz";
@@ -89,3 +89,97 @@ describe("activity types", () => {
     await expect(promise).resolves.toEqual([mockActivityTypes[0]]);
   });
 });
+
+describe("operator activities", () => {
+  test("it gets operator activities", async () => {
+    const operatorActivities = [
+      {
+        IdAttivitaOperatore: 27,
+        IdOperatore: 5,
+        IdTipoAttivita: 3,
+        IdTestataOrdineEsecutivo: null,
+        IdPosizioneOrdineEsecutivo: null,
+        IdFaseLavorazione: 25,
+        IdManutenzione: null,
+        DataOraInizio: "2020-06-22T17:11:00",
+        DataOraFine: null,
+        DurataMinuti: 4,
+        Descrizione:
+          "Lavorazione (20-0029*1) - Lavorazione Avviata il: 22/06/20 17:11",
+        AttivitaMacchinaAssociata: null,
+      },
+    ];
+
+    mockAxios
+      .onGet(`https://${mockUrl}${mockVersion}/operatori/2/attivita`)
+      .reply(200, operatorActivities);
+
+    const promise = pipe(
+      Activities.collectionByOperator({
+        IdOperatore: 2,
+        token: "my-token-123",
+        settings: { url: mockUrl },
+      }),
+      TE.fold(taskFail, taskOf),
+    )();
+
+    await expect(promise).resolves.toEqual(stringToDate(operatorActivities));
+  });
+});
+
+describe("machine activities", () => {
+  test("it gets machine activities", async () => {
+    const machineActivities = [
+      {
+        IdAttivitaMacchina: 779,
+        IdMacchina: 3,
+        IdTipoAttivita: 3,
+        IdTestataOrdineEsecutivo: null,
+        IdPosizioneOrdineEsecutivo: null,
+        IdFaseLavorazione: 9,
+        IdOperatoreInizio: 5,
+        IdOperatoreFine: null,
+        DataOraInizio: "2020-06-19T17:10:00",
+        DataOraFine: null,
+        DurataMinuti: null,
+        Descrizione:
+          "Lavorazione (20-0006*1) avviata il: 19/06/20 17:10 [Test]",
+        AttivitàOperatoriAssociate: [
+          {
+            IdAttivitaOperatore: 20,
+            IdOperatore: 5,
+            IdTipoAttivita: 3,
+            IdTestataOrdineEsecutivo: null,
+            IdPosizioneOrdineEsecutivo: null,
+            IdFaseLavorazione: 9,
+            IdManutenzione: null,
+            DataOraInizio: "2020-06-19T17:10:00",
+            DataOraFine: null,
+            DurataMinuti: null,
+            Descrizione:
+              "Lavorazione (20-0006*1) - Lavorazione Avviata il: 19/06/20 17:10 sulla Macchina: Tornio C",
+            AttivitaMacchinaAssociata: null,
+          },
+        ],
+      },
+    ];
+
+    mockAxios
+      .onGet(`https://${mockUrl}${mockVersion}/macchine/3/attivita`)
+      .reply(200, machineActivities);
+
+    const promise = pipe(
+      Activities.collectionByMachine({
+        IdMacchina: 3,
+        token: "my-token-123",
+        settings: { url: mockUrl },
+      }),
+      TE.fold(taskFail, taskOf),
+    )();
+
+    await expect(promise).resolves.toEqual(stringToDate(machineActivities));
+  });
+});
+
+const stringToDate = (arr: any[]) =>
+  arr.map((x) => ({ ...x, DataOraInizio: new Date(x.DataOraInizio) }));

@@ -67,7 +67,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "fp-ts": "^2.8.1",
-    "io-ts": "^2.2.9"
+    "io-ts": "^2.2.9",
+    "io-ts-types": "^0.5.10"
   },
   "directories": {
     "test": "test"

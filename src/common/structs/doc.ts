@@ -1,4 +1,5 @@
 import * as t from "io-ts";
+import { DateFromISOString } from "io-ts-types/lib/DateFromISOString";
 
 export const ResourceIdC = t.number;
 export type ResourceId = t.TypeOf<typeof ResourceIdC>;
@@ -23,3 +24,9 @@ export const ResultC = <C extends t.Mixed>(
     },
     "ResultC",
   );
+
+export const NullableC = <C extends t.Mixed>(
+  codec: C,
+): t.UnionC<[C, t.NullC]> => t.union([codec, t.null]);
+
+export const DateFromStringC = DateFromISOString;
