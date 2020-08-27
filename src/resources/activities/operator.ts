@@ -37,6 +37,7 @@ export type OperatorActivity = t.TypeOf<typeof OperatorActivityC>;
 export type OperatorCollection = t.TypeOf<typeof CollectionC>;
 
 export type OperatorActivitiesQuery = QueryParams<"">;
+export type StopOperatorActivitiesQuery = QueryParams<"">;
 
 export function collectionByOperator(
   params: StandardParams<OperatorActivitiesQuery> & { IdOperatore: ResourceId },
@@ -45,5 +46,21 @@ export function collectionByOperator(
     ...params,
     target: links.activities().operator().collection(params.IdOperatore),
     codec: CollectionC,
+  });
+}
+
+export function stopByOperatorActivity(
+  params: StandardParams<StopOperatorActivitiesQuery> & {
+    IdAttivitaOperatore: ResourceId;
+  },
+): TE.TaskEither<Error, OperatorActivity> {
+  return Request.postRequest<undefined, OperatorActivity>({
+    ...params,
+    value: undefined,
+    target: links
+      .activities()
+      .operatorActivity(params.IdAttivitaOperatore)
+      .stop(),
+    codec: OperatorActivityC,
   });
 }

@@ -34,6 +34,13 @@ export const links = {
     operator: () => ({
       collection: (id: ResourceId) => `/operatori/${id}/attivita`,
     }),
+    machineActivity: (machineActivityId: ResourceId) => ({
+      stop: () => `/attivita-macchine/${machineActivityId}/stop`,
+      stopAll: () => `/attivita-macchine/${machineActivityId}/stopall`,
+    }),
+    operatorActivity: (operatorActivityId: ResourceId) => ({
+      stop: () => `/attivita-operatori/${operatorActivityId}/stop`,
+    }),
   }),
   machines: () => ({
     collection: () => "/macchine",

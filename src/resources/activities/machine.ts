@@ -38,6 +38,7 @@ export type MachineActivity = t.TypeOf<typeof MachineActivityC>;
 export type MachineCollection = t.TypeOf<typeof CollectionC>;
 
 export type MachineActivitiesQuery = QueryParams<"">;
+export type StopMachineActivitiesQuery = QueryParams<"">;
 
 export function collectionByMachine(
   params: StandardParams<MachineActivitiesQuery> & { IdMacchina: ResourceId },
@@ -46,5 +47,37 @@ export function collectionByMachine(
     ...params,
     target: links.activities().machine().collection(params.IdMacchina),
     codec: CollectionC,
+  });
+}
+
+export function stopAllByMachineActivity(
+  params: StandardParams<StopMachineActivitiesQuery> & {
+    IdAttivitaMacchina: ResourceId;
+  },
+): TE.TaskEither<Error, MachineActivity> {
+  return Request.postRequest<undefined, MachineActivity>({
+    ...params,
+    value: undefined,
+    target: links
+      .activities()
+      .machineActivity(params.IdAttivitaMacchina)
+      .stopAll(),
+    codec: MachineActivityC,
+  });
+}
+
+export function stopByMachineActivity(
+  params: StandardParams<StopMachineActivitiesQuery> & {
+    IdAttivitaMacchina: ResourceId;
+  },
+): TE.TaskEither<Error, MachineActivity> {
+  return Request.postRequest<undefined, MachineActivity>({
+    ...params,
+    value: undefined,
+    target: links
+      .activities()
+      .machineActivity(params.IdAttivitaMacchina)
+      .stop(),
+    codec: MachineActivityC,
   });
 }
