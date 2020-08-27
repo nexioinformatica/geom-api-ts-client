@@ -55,6 +55,7 @@
     "husky": "4.2.5",
     "jest": "26.4.0",
     "nodemon": "2.0.4",
+    "p-all": "^3.0.0",
     "prettier": "2.0.5",
     "semantic-release": "17.1.1",
     "ts-jest": "26.2.0",

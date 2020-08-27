@@ -13,7 +13,7 @@ beforeEach(() => {
 
 describe("barcode-decode successful responses", () => {
   test("it decodes lot", async () => {
-    const lot = [{ Tipo: "L", Id: { IdLotto: 3 } }];
+    const lot = [{ Tipo: "L", Oggetto: { IdLotto: 3 } }];
 
     mockAxios
       .onPost(
@@ -35,7 +35,7 @@ describe("barcode-decode successful responses", () => {
 
   test("it decodes freshman", async () => {
     const freshman = [
-      { Tipo: "M", Id: { IdMatricola: 3, Matricola: "12345" } },
+      { Tipo: "R", Oggetto: { IdMatricola: 3, Matricola: "12345" } },
     ];
 
     mockAxios

@@ -7,27 +7,37 @@ export const Hello = t.type({ hello: t.string });
 export type HelloType = t.TypeOf<typeof Hello>;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const taskFail = <U>(_x: U): T.Task<never> => {
-  return T.never;
+export const taskFail = <U>(x: U): T.Task<never> => {
+  return () => Promise.reject(x);
 };
 
 export const taskNever = (): T.Task<never> => T.never;
 
-export const taskOf = <U>(x: U): T.Task<U> => T.of(x);
+export const taskOf = T.of;
 
-export const taskExpectMatchObject = <U>(expected: U) => <V>(
-  x: V,
-): T.Task<V> => {
-  expect(x).toMatchObject(expected);
-  return T.of(x);
+export const tasker = <U, V>(f: (x: U) => V) => (x: U): T.Task<U> => {
+  f(x);
+  return taskOf(x);
 };
 
-export const taskExpectInstanceOf = (expected: string) => <U>(
-  x: U,
-): T.Task<U> => {
-  expect(x).toBeInstanceOf(expected);
-  return T.of(x);
-};
+export const taskExpectMatchObject = <U, V>(
+  expected: U,
+): ((x: V) => T.Task<V>) =>
+  tasker((x: V) => {
+    expect(x).toMatchObject(expected);
+  });
+
+/**
+ * Check that given value is an Error with structural comparison.
+ * Checked properties are `name` and `message`.
+ *
+ * No instanceof or typeof used, see https://github.com/facebook/jest/issues/2549
+ */
+export const taskExpectError = (<U extends Error>() =>
+  tasker((x: U) => expect(!!x && !!x.name && !!x.message).toBe(true)))();
+
+export const taskExpectEqual = <V, U>(expected: V) =>
+  tasker((x: U) => expect(x).toEqual(expected));
 
 export function getMockAdapter(): MockAdapter {
   return new MockAdapter(axios);
@@ -46,3 +56,10 @@ export function logAxiosResponses() {
     return v;
   });
 }
+
+export const log = <U>(x: U) => {
+  console.log(typeof x);
+  console.log(Object.keys(x));
+  console.log(x);
+  return x;
+};
