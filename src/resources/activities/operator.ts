@@ -1,15 +1,15 @@
 import * as t from "io-ts";
 import * as TE from "fp-ts/lib/TaskEither";
-import * as Request from "../../../common/api/request";
-import { links } from "../../../common/api";
-import { QueryParams, StandardParams } from "../../../common/api";
+import * as Request from "../../common/api/request";
+import { links } from "../../common/api";
+import { QueryParams, StandardParams } from "../../common/api";
 import {
   ResourceIdC,
   ResourceId,
   DateFromStringC,
   CollectionDocC,
   NullableC,
-} from "../../../common/structs";
+} from "../../common/structs";
 
 const OperatorActivityC = t.intersection([
   t.type({
@@ -43,7 +43,7 @@ export function collectionByOperator(
 ): TE.TaskEither<Error, OperatorCollection> {
   return Request.getRequest<OperatorCollection>({
     ...params,
-    target: links.activities().collection().operator(params.IdOperatore),
+    target: links.activities().operator().collection(params.IdOperatore),
     codec: CollectionC,
   });
 }
