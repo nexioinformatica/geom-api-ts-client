@@ -29,4 +29,8 @@ export const links = {
       collection: () => "/tipi-attivita",
     }),
   }),
+  machines: () => ({
+    collection: () => "/macchine",
+    single: (id: ResourceId) => `/macchine/${id}`,
+  }),
 };
