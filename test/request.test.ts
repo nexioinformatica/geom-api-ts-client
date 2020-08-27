@@ -10,7 +10,7 @@ import {
   postRequest,
   // postRequest,
 } from "../src/common/api/request";
-import { taskNever, Hello, HelloType, taskOf, getMockAdapter } from "./util";
+import { taskFail, Hello, HelloType, taskOf, getMockAdapter } from "./util";
 
 const mock = getMockAdapter();
 
@@ -123,7 +123,7 @@ describe("make request", () => {
       makeRequest<HelloType>({ url: mockUrl }, Hello, "1234", {
         apiKey: "my-secret-api-key",
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual({ hello: "world" });
@@ -153,7 +153,7 @@ describe("make request", () => {
           apiKey: "my-secret-api-key",
         },
       ),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual({ hello: "world" });
@@ -166,7 +166,7 @@ describe("make request", () => {
       makeRequest<HelloType>({ url: mockUrl }, Hello, "1234", {
         apiKey: "my-secret-api-key",
       }),
-      TE.fold(taskOf, taskNever),
+      TE.fold(taskOf, taskFail),
     )();
 
     await expect(promise).resolves.toBeInstanceOf(Error);
@@ -179,7 +179,7 @@ describe("make request", () => {
 
     const promise = pipe(
       makeRequest<HelloType>({ url: mockUrl }, Hello),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     expect.assertions(1);
@@ -191,7 +191,7 @@ describe("make request", () => {
 
     const promise = pipe(
       makeRequest<unknown>({ url: mockUrl }, t.never),
-      TE.fold(taskOf, taskNever),
+      TE.fold(taskOf, taskFail),
     )();
 
     expect.assertions(1);
@@ -205,7 +205,7 @@ describe("make request", () => {
 
     const promise = pipe(
       makeRequest<unknown>({ url: mockUrl }, t.never),
-      TE.fold(taskOf, taskNever),
+      TE.fold(taskOf, taskFail),
     )();
 
     expect.assertions(1);
@@ -219,7 +219,7 @@ describe("make request", () => {
 
     const promise = pipe(
       makeRequest<unknown>({ url: mockUrl }, t.never),
-      TE.fold(taskOf, taskNever),
+      TE.fold(taskOf, taskFail),
     )();
 
     expect.assertions(1);
@@ -233,7 +233,7 @@ describe("make request", () => {
 
     const promise = pipe(
       makeRequest<unknown>({ url: mockUrl }, t.never),
-      TE.fold(taskOf, taskNever),
+      TE.fold(taskOf, taskFail),
     )();
 
     expect.assertions(1);
@@ -245,7 +245,7 @@ describe("make request", () => {
 
     const promise = pipe(
       makeRequest<unknown>({ url: mockUrl }, t.never),
-      TE.fold(taskOf, taskNever),
+      TE.fold(taskOf, taskFail),
     )();
 
     expect.assertions(1);
@@ -265,12 +265,12 @@ describe("get request", () => {
         codec: Hello,
         settings: { url: "www.foobar.baz" },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     const p2 = pipe(
       makeRequest<HelloType>({ url: mockUrl }, Hello),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     expect.assertions(2);
@@ -292,7 +292,7 @@ describe("post request", () => {
         codec: Hello,
         settings: { url: "www.foobar.baz" },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     const p2 = pipe(
@@ -300,7 +300,7 @@ describe("post request", () => {
         { url: mockUrl, method: "POST", data: { hello: "world" } },
         Hello,
       ),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     expect.assertions(2);

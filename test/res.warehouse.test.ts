@@ -1,7 +1,7 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Warehouse } from "../src";
-import { getMockAdapter, taskOf, taskNever } from "./util";
+import { getMockAdapter, taskOf, taskFail } from "./util";
 import { ReasonTypeKey } from "../src/resources/warehouse/movement";
 
 const mockAxios = getMockAdapter();
@@ -46,7 +46,7 @@ describe("warehouse movements", () => {
         token: "my-token-123",
         settings: { url: mockUrl },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual({
@@ -81,7 +81,7 @@ describe("warehouse reasons", () => {
         token: "my-token-123",
         settings: { url: mockUrl },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual(mockReasons);

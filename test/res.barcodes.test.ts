@@ -1,7 +1,7 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Barcode } from "../src";
-import { getMockAdapter, taskOf, taskNever } from "./util";
+import { getMockAdapter, taskOf, taskFail } from "./util";
 
 const mockAxios = getMockAdapter();
 const mockUrl = "www.foobar.baz";
@@ -27,7 +27,7 @@ describe("barcode-decode successful responses", () => {
         value: { Code: "L123" },
         settings: { url: mockUrl },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual(lot);
@@ -50,7 +50,7 @@ describe("barcode-decode successful responses", () => {
         value: { Code: "M123" },
         settings: { url: mockUrl },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual(freshman);

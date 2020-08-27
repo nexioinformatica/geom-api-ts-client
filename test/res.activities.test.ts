@@ -1,7 +1,7 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Activities } from "../src";
-import { getMockAdapter, taskOf, taskNever, taskFail } from "./util";
+import { getMockAdapter, taskOf, taskFail } from "./util";
 
 const mockAxios = getMockAdapter();
 const mockUrl = "www.foobar.baz";
@@ -31,7 +31,7 @@ describe("activities", () => {
         token: "my-token-123",
         settings: { url: mockUrl },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual({
@@ -66,7 +66,7 @@ describe("activity types", () => {
         token: "my-token-123",
         settings: { url: mockUrl },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual(mockActivityTypes);
@@ -83,7 +83,7 @@ describe("activity types", () => {
         token: "my-token-123",
         settings: { url: mockUrl },
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual([mockActivityTypes[0]]);

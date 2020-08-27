@@ -1,7 +1,7 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Authentication, Auth } from "../src";
-import { getMockAdapter, taskOf, taskNever } from "./util";
+import { getMockAdapter, taskOf, taskFail } from "./util";
 
 const mockAxios = getMockAdapter();
 const mockUrl = "www.foobar.baz";
@@ -35,7 +35,7 @@ describe("auth", () => {
 
     const promise = pipe(
       Authentication.login({ settings: { url: mockUrl }, value: mockAuthData }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual(mockToken);
@@ -62,7 +62,7 @@ describe("auth", () => {
         settings: { url: mockUrl },
         value: mockAuthData,
       }),
-      TE.fold(taskNever, taskOf),
+      TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual(mockToken);
