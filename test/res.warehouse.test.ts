@@ -28,7 +28,7 @@ describe("warehouse movements", () => {
         return [
           200,
           {
-            Code: 1,
+            Codice: 1,
             Messaggio: null,
             Oggetto: {
               IdMovimento: 1,
@@ -50,7 +50,7 @@ describe("warehouse movements", () => {
     )();
 
     await expect(promise).resolves.toEqual({
-      Code: 1,
+      Codice: 1,
       Messaggio: null,
       Oggetto: {
         IdMovimento: 1,

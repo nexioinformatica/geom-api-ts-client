@@ -12,13 +12,13 @@ export const CollectionDocC = <C extends t.Mixed>(codec: C): t.ArrayC<C> =>
 export const ResultC = <C extends t.Mixed>(
   codec: C,
 ): t.TypeC<{
-  Code: t.NumberC;
+  Codice: t.NumberC;
   Messaggio: t.UnionC<[t.StringC, t.NullC]>;
   Oggetto: C;
 }> =>
   t.type(
     {
-      Code: t.number,
+      Codice: t.number,
       Messaggio: t.union([t.string, t.null]),
       Oggetto: codec,
     },

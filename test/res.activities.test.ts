@@ -22,7 +22,7 @@ describe("activities", () => {
       .onPost(`https://${mockUrl}${mockVersion}/attivita/start`)
       .reply((config) => [
         200,
-        { Code: 1, Messaggio: null, Oggetto: JSON.parse(config.data) },
+        { Codice: 1, Messaggio: null, Oggetto: JSON.parse(config.data) },
       ]);
 
     const promise = pipe(
@@ -35,7 +35,7 @@ describe("activities", () => {
     )();
 
     await expect(promise).resolves.toEqual({
-      Code: 1,
+      Codice: 1,
       Messaggio: null,
       Oggetto: mockActivity,
     });
