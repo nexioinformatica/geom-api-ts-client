@@ -7,6 +7,7 @@ import * as Barcode from "./resources/barcodes";
 import * as Operator from "./resources/operators";
 import * as Warehouse from "./resources/warehouse";
 import * as Machine from "./resources/machines";
+import * as Subdivision from "./resources/subdivisions";
 
 export {
   // api common
@@ -19,4 +20,5 @@ export {
   Operator,
   Warehouse,
   Machine,
+  Subdivision,
 };
