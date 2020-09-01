@@ -8,6 +8,7 @@ import * as Operator from "./resources/operators";
 import * as Warehouse from "./resources/warehouse";
 import * as Machine from "./resources/machines";
 import * as Subdivision from "./resources/subdivisions";
+import * as Job from "./resources/jobs";
 
 export {
   // api common
@@ -21,4 +22,5 @@ export {
   Warehouse,
   Machine,
   Subdivision,
+  Job,
 };

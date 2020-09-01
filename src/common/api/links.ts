@@ -59,4 +59,8 @@ export const links = {
       collection: () => `/articoli/${articleId}/suddivisioni`,
     }),
   }),
+  jobs: (phaseId: ResourceId) => ({
+    end: () => `/fasi-lavorazione/${phaseId}/fine`,
+    checkAction: () => `/fasi-lavorazione/${phaseId}/check-action`,
+  }),
 };
