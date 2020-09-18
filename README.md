@@ -15,6 +15,38 @@ A TypeScript client library for accessing GeOM APIs
 
 ## Usage
 
+Install the package 
+
+```bash
+yarn add geom-api-ts-client
+
+# or, with npm
+npm i geom-api-ts-client
+```
+
+and start coding
+
+```typescript
+import { Operator } from "geom-api-ts-client";
+
+const result = Operator.getMe(config)
+// use result ...
+```
+
+## Test
+
+```
+yarn test
+yarn lint
+
+# or, with docker
+docker-compose build  # needed the fitst time
+docker-compose run yarn yarn test
+docker-compose run yarn yarn lint
+```
+
+## Examples
+
 **Functional style**
 
 ```typescript

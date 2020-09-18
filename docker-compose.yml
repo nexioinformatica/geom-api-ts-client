@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+
+  yarn:
+    container_name: geom-api-ts-client-yarn
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+    tty: true
+    stdin_open: true
