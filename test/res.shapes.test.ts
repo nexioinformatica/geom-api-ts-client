@@ -1,6 +1,6 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
-import { Shapes } from "../src";
+import { Shape } from "../src";
 import { getMockAdapter, taskOf, taskFail } from "./util";
 import { makeSettings } from "./util";
 
@@ -21,7 +21,7 @@ describe("shapes", () => {
       .reply(200, shapes);
 
     const promise = pipe(
-      Shapes.collection(mockSettings({})),
+      Shape.collection(mockSettings({})),
       TE.fold(taskFail, taskOf),
     )();
 
@@ -30,11 +30,14 @@ describe("shapes", () => {
 
   test("it gets shape collection with article", async () => {
     mockAxios
-      .onGet(`https://${mockUrl}${mockVersion}/forme`, expect.objectContaining({ IdArticolo: 3 }))
+      .onGet(
+        `https://${mockUrl}${mockVersion}/forme`,
+        expect.objectContaining({ IdArticolo: 3 }),
+      )
       .reply(200, [shapes[0]]);
 
     const promise = pipe(
-      Shapes.collection(mockSettings({ IdArticolo: 3 })),
+      Shape.collection(mockSettings({ IdArticolo: 3 })),
       TE.fold(taskFail, taskOf),
     )();
 
@@ -43,59 +46,59 @@ describe("shapes", () => {
 
   test("it gets single shape by id", async () => {
     mockAxios
-    .onGet(`https://${mockUrl}${mockVersion}/forma/27`)
-    .reply(200, shapes[0]);
+      .onGet(`https://${mockUrl}${mockVersion}/forma/27`)
+      .reply(200, shapes[0]);
 
     const promise = pipe(
-      Shapes.single(mockSettings({ IdForma: 27 })),
+      Shape.single(mockSettings({ IdForma: 27 })),
       TE.fold(taskFail, taskOf),
     )();
 
     await expect(promise).resolves.toEqual(shapes[0]);
-  })
+  });
 });
 
 const shapes = [
-    {
-      "IdForma": 27,
-      "Descrizione": "Albero 2 diametri",
-      "Dimensioni": [
-        {
-          "Sigla": "D1",
-          "Descrizione": "Diametro1",
-          "UM": "mm"
-        },
-        {
-          "Sigla": "D2",
-          "Descrizione": "Diametro2",
-          "UM": "mm"
-        }
-      ]
-    },
-    {
-      "IdForma": 3,
-      "Descrizione": "Albero 3 diametri",
-      "Dimensioni": [
-        {
-          "Sigla": "D1",
-          "Descrizione": "Diametro1",
-          "UM": "mm"
-        },
-        {
-          "Sigla": "D2",
-          "Descrizione": "Diametro2",
-          "UM": "mm"
-        },
-        {
-          "Sigla": "D3",
-          "Descrizione": "Diametro3",
-          "UM": "mm"
-        },
-        {
-          "Sigla": "L",
-          "Descrizione": "Lunghezza",
-          "UM": "mm"
-        }
-      ]
-    },
-  ];
+  {
+    IdForma: 27,
+    Descrizione: "Albero 2 diametri",
+    Dimensioni: [
+      {
+        Sigla: "D1",
+        Descrizione: "Diametro1",
+        UM: "mm",
+      },
+      {
+        Sigla: "D2",
+        Descrizione: "Diametro2",
+        UM: "mm",
+      },
+    ],
+  },
+  {
+    IdForma: 3,
+    Descrizione: "Albero 3 diametri",
+    Dimensioni: [
+      {
+        Sigla: "D1",
+        Descrizione: "Diametro1",
+        UM: "mm",
+      },
+      {
+        Sigla: "D2",
+        Descrizione: "Diametro2",
+        UM: "mm",
+      },
+      {
+        Sigla: "D3",
+        Descrizione: "Diametro3",
+        UM: "mm",
+      },
+      {
+        Sigla: "L",
+        Descrizione: "Lunghezza",
+        UM: "mm",
+      },
+    ],
+  },
+];
