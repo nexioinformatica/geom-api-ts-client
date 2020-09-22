@@ -46,6 +46,10 @@ export const links = {
     collection: () => "/macchine",
     single: (id: ResourceId) => `/macchine/${id}`,
   }),
+  shapes: () => ({
+    collection: () => "/forme",
+    single: (id: ResourceId) => `/forma/${id}`,
+  }),
   subdivisions: () => ({
     articleFreshman: (freshmanId: ResourceId) => ({
       collection: () => `/articoli-matricole/${freshmanId}/suddivisioni`,

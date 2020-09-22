@@ -7,6 +7,7 @@ import * as Barcode from "./resources/barcodes";
 import * as Operator from "./resources/operators";
 import * as Warehouse from "./resources/warehouse";
 import * as Machine from "./resources/machines";
+import * as Shapes from "./resources/shapes";
 import * as Subdivision from "./resources/subdivisions";
 import * as Job from "./resources/jobs";
 
@@ -18,9 +19,10 @@ export {
   Activities,
   Authentication,
   Barcode,
-  Operator,
-  Warehouse,
-  Machine,
-  Subdivision,
   Job,
+  Machine,
+  Operator,
+  Shapes,
+  Subdivision,
+  Warehouse,
 };
