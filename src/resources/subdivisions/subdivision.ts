@@ -38,11 +38,17 @@ const SubdivisionC = t.intersection([
 
 const CollectionC = CollectionDocC(SubdivisionC);
 
-const NewSubdivisionC = t.type({
-  IdArticolo: ResourceIdC,
-  Descrizione: t.string,
-  Valori: t.array(t.number),
-});
+const SizeValueC = t.type({ Sigla: t.string, Valore: t.number });
+const NewSubdivisionC = t.intersection([
+  t.type({
+    IdArticolo: ResourceIdC,
+  }),
+  t.partial({
+    IdForma: NullableC(ResourceIdC),
+    Descrizione: NullableC(t.string),
+    Dimensioni: NullableC(CollectionDocC(SizeValueC)),
+  }),
+]);
 
 const NewSubdivisionResultC = ResultC(SubdivisionC);
 

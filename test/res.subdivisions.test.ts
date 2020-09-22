@@ -1,11 +1,20 @@
 import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Subdivision } from "../src";
-import { getMockAdapter, taskOf, taskFail } from "./util";
+import {
+  getMockAdapter,
+  taskOf,
+  taskFail,
+  makeSettings,
+  mockFetch,
+} from "./util";
 
 const mockAxios = getMockAdapter();
 const mockUrl = "www.foobar.baz";
+const mockToken = "my-token-123";
 const mockVersion = "/api/v1";
+
+const mockSettings = makeSettings(mockToken)(mockUrl);
 
 beforeEach(() => {
   mockAxios.reset();
@@ -65,21 +74,27 @@ describe("subivisions", () => {
     await expect(promise).resolves.toEqual(subdivisionCollection[0]);
   });
 
-  test("it creates new subdivision", async () => {
-    mockAxios
-      .onPost(
-        `https://${mockUrl}${mockVersion}/articoli-suddivisioni`,
-        expect.objectContaining(newSubdivision),
-      )
-      .reply(200, newSubdivisionResult);
+  test("it creates new subdivision with article", async () => {
+    const endpoint = `https://${mockUrl}${mockVersion}/articoli-suddivisioni`;
+    const requestMatcher = expect.objectContaining(newSubdivision);
 
-    const promise = pipe(
-      Subdivision.create({
-        value: newSubdivision,
-        token: "my-token-123",
-        settings: { url: mockUrl },
-      }),
-      TE.fold(taskFail, taskOf),
+    mockAxios.onPost(endpoint, requestMatcher).reply(200, newSubdivisionResult);
+
+    const promise = mockFetch(() =>
+      Subdivision.create(mockSettings({ value: newSubdivision })),
+    )();
+
+    await expect(promise).resolves.toEqual(newSubdivisionResult);
+  });
+
+  test("it creates new subdivision with article and sizes", async () => {
+    const endpoint = `https://${mockUrl}${mockVersion}/articoli-suddivisioni`;
+    const requestMatcher = expect.objectContaining(newSubdivisionWithData);
+
+    mockAxios.onPost(endpoint, requestMatcher).reply(200, newSubdivisionResult);
+
+    const promise = mockFetch(() =>
+      Subdivision.create(mockSettings({ value: newSubdivisionWithData })),
     )();
 
     await expect(promise).resolves.toEqual(newSubdivisionResult);
@@ -125,10 +140,15 @@ const subdivisionCollection = [
   },
 ];
 
-const newSubdivision = {
+const newSubdivision: Subdivision.NewSubdivision = {
   IdArticolo: 2,
-  Descrizione: "Suddivisione Prova 50x50mm",
-  Valori: [1, 2],
+};
+
+const newSubdivisionWithData: Subdivision.NewSubdivision = {
+  IdArticolo: 2,
+  Descrizione: "Test",
+  IdForma: 1,
+  Dimensioni: [{ Sigla: "L", Valore: 15 }],
 };
 
 const newSubdivisionResult = {
