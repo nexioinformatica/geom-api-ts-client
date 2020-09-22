@@ -13,9 +13,7 @@
 
 A TypeScript client library for accessing GeOM APIs
 
-## Usage
-
-Install the package 
+## Install
 
 ```bash
 yarn add geom-api-ts-client
@@ -24,16 +22,52 @@ yarn add geom-api-ts-client
 npm i geom-api-ts-client
 ```
 
-and start coding
+## Usage
 
 ```typescript
 import { Operator } from "geom-api-ts-client";
 
-const result = Operator.getMe(config)
+const result = Operator.getMe(config);
 // use result ...
 ```
 
-## Test
+Go to the [examples](#examples) section for more.
+
+## Endpoints
+
+Here follows the list of implemented endpoints, with reference to the
+latest API docs.
+
+| n   | name                                  | endpoint \[^1\]                                | method                                  |
+| --- | ------------------------------------- | ---------------------------------------------- | --------------------------------------- |
+| 1   | token                                 | /token                                         | `Authentication.login`                  |
+| 2   | barcode                               | /barcode-decode                                | `Barcode.decode`                        |
+| 3   | operator collection                   | /operatori                                     | `Operator.collection`                   |
+| 4   | operator me                           | /operatori/me                                  | `Operator.me`                           |
+| 5   | operator single                       | /operatori/{id}                                | `Operator.single`                       |
+| 6   | operator activity                     | /operatori/{id}/attivita                       | `Activity.collectionByOperator`         |
+| 7   | machine collection                    | /macchine                                      | `Machine.collection`                    |
+| 8   | machine single                        | /macchine/{id}                                 | `Machine.single`                        |
+| 9   | machine activity                      | /macchine/{id}/attivita                        | `Activity.collectionByMachine`          |
+| 23  | article subdivisions                  | /articoli/{id}/suddivisioni                    | `Subdivision.collectionByArticle`       |
+| 27  | article subdivision details           | /articoli-suddivisioni/{subdivisionId}         | `Subdivision.single`                    |
+| 32  | freshman subdivisions                 | /articoli-matricole/{freshmanId}/suddivisioni  | `Subdivision.collectionByFreshman`      |
+| 34  | new article subdivision               | /articoli-suddivisioni                         | `Subdivision.create`                    |
+| 37  | movement reason collection            | /causali-magazzino                             | `Warehouse.Reason.getCollection`        |
+| 41  | activity types collection             | /tipi-attivita                                 | `Activities.ActivityType.getCollection` |
+| 44  | create warehouse movement             | /movimenti-magazzino                           | `Warehouse.Movement.create`             |
+| 46  | check action action phase             | /fasi-lavorazione/{id}/check-action            | `Job.checkAction`                       |
+| 48  | start activity                        | /attivita/start                                | `Activity.start`                        |
+| 49  | stop activity by machine              | /attivita-macchine/{machineActivityId}/stop    | `Activity.stopByMachineActivity`        |
+| 50  | stop activity by machine and operator | /attivita-macchine/{machineActivityId}/stopall | `Activity,stopAllByMachineActivity`     |
+| 51  | stop activity by operator             | /attivita-operatori/{operatorActivityId}/stop  | `Activity.stopByOperatorActivity`       |
+| 52  | end job                               | /fasi-lavorazione/{id}/fine                    | `Job.end`                               |
+| 57  | shape collection                      | /forme                                         | `Shape.collection`                      |
+| 58  | shape details                         | /forma/{id}                                    | `Shape.single`                          |
+
+\[^1\]: version is excluded from endpoint url
+
+## Tests
 
 ```
 yarn test
