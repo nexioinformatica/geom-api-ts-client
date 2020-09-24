@@ -35,7 +35,10 @@ describe("barcode-decode successful responses", () => {
 
   test("it decodes freshman", async () => {
     const freshman = [
-      { Tipo: "R", Oggetto: { IdMatricola: 3, Matricola: "12345" } },
+      {
+        Tipo: "R",
+        Oggetto: { IdMatricola: 3, IdArticolo: 4, Matricola: "12345" },
+      },
     ];
 
     mockAxios

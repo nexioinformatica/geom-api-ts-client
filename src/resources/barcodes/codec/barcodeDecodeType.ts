@@ -48,6 +48,8 @@ export const FreshmanDecodeC = t.type({
   Tipo: BarcodeType.FreshmanDecodeTypeC,
   Oggetto: t.type({
     IdMatricola: ResourceIdC,
+    IdArticolo: ResourceIdC,
+    Matricola: t.string,
   }),
 });
 

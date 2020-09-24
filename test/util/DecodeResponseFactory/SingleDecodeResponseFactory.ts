@@ -114,7 +114,10 @@ export class ArticleSingleDecodeResponseFactory extends AbstractSingleDecodeResp
 
 export class FreshmanSingleDecodeResponseFactory extends AbstractSingleDecodeResponseFactory {
   output() {
-    return { Tipo: "R", Oggetto: { IdMatricola: 1 } } as Barcode.FreshmanDecode;
+    return {
+      Tipo: "R",
+      Oggetto: { IdMatricola: 1, IdArticolo: 4, Matricola: "R1" },
+    } as Barcode.FreshmanDecode;
   }
   codec() {
     return Barcode.Codec.BarcodeDecodeType.FreshmanDecodeC as t.Decoder<
