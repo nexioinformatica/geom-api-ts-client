@@ -2,6 +2,7 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Authentication, Auth } from "../src";
 import { getMockAdapter, taskOf, taskFail } from "./util";
+import qs from "qs";
 
 const mockAxios = getMockAdapter();
 const mockUrl = "www.foobar.baz";
@@ -25,11 +26,15 @@ describe("auth", () => {
       refresh_token: "cde456",
       token_type: "Bearer",
     };
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
 
     mockAxios
       .onPost(
         `https://${mockUrl}${mockVersion}/token`,
-        expect.objectContaining(mockAuthData),
+        qs.stringify(mockAuthData),
+        expect.objectContaining(headers),
       )
       .reply(200, mockToken);
 
@@ -52,9 +57,16 @@ describe("auth", () => {
       refresh_token: "cde456",
       token_type: "Bearer",
     };
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
 
     mockAxios
-      .onPost(`https://${mockUrl}${mockVersion}/token`)
+      .onPost(
+        `https://${mockUrl}${mockVersion}/token`,
+        qs.stringify(mockAuthData),
+        expect.objectContaining(headers),
+      )
       .reply(200, mockToken);
 
     const promise = pipe(

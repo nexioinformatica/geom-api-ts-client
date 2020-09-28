@@ -100,7 +100,7 @@ export function makeRequest<T>(
   settings?: Settings,
 ): TE.TaskEither<Error, T> {
   const headers = pipe(
-    {},
+    req.headers || {},
     addHeader("X-ApiKey", settings && settings.apiKey),
     addHeader(
       "Authorization",
@@ -154,6 +154,7 @@ export function getRequest<T>({
 }
 
 export function postRequest<U, V>({
+  config,
   target,
   value,
   codec,
@@ -167,6 +168,7 @@ export function postRequest<U, V>({
   query?: QueryParams;
   token?: Token | string;
   settings?: Settings;
+  config?: AxiosRequestConfig;
 }): TE.TaskEither<Error, V> {
   const req: AxiosRequestConfig = {
     url: `${makeUrl(settings)}${target}${paramsStarter(query)}${formatParams(
@@ -174,6 +176,7 @@ export function postRequest<U, V>({
     )}`,
     data: value,
     method: "POST",
+    ...(config || {}),
   };
   return makeRequest<V>(req, codec, token, settings);
 }
