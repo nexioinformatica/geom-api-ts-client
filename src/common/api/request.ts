@@ -13,18 +13,6 @@ import { Token, getTokenType, getAccessToken } from "../../auth";
 import { VERSION } from "./version";
 import { decodeWith } from "./codec";
 
-export type ApiResult<T> = ResultSuccess<T> | ResultFail<Error>;
-
-export interface ResultSuccess<T> {
-  ok: true;
-  value: T;
-}
-
-export interface ResultFail<T> {
-  ok: false;
-  error: T;
-}
-
 export type BaseParams<T = QueryParams> = {
   query?: T;
   settings?: Settings;
