@@ -18,13 +18,13 @@ describe("barcode-decode successful responses", () => {
     mockAxios
       .onPost(
         `https://${mockUrl}${mockVersion}/barcode-decode`,
-        expect.objectContaining({ Code: "L123" }),
+        expect.objectContaining({ Codice: "L123" }),
       )
       .reply(200, lot);
 
     const promise = pipe(
       Barcode.decode({
-        value: { Code: "L123" },
+        value: { Codice: "L123" },
         settings: { url: mockUrl },
       }),
       TE.fold(taskFail, taskOf),
@@ -44,13 +44,13 @@ describe("barcode-decode successful responses", () => {
     mockAxios
       .onPost(
         `https://${mockUrl}${mockVersion}/barcode-decode`,
-        expect.objectContaining({ Code: "M123" }),
+        expect.objectContaining({ Codice: "M123" }),
       )
       .reply(200, freshman);
 
     const promise = pipe(
       Barcode.decode({
-        value: { Code: "M123" },
+        value: { Codice: "M123" },
         settings: { url: mockUrl },
       }),
       TE.fold(taskFail, taskOf),
