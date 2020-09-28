@@ -12,6 +12,7 @@ const PasswordC = t.type({
 const RefreshTokenC = t.type({
   refresh_token: t.string,
   grant_type: GrantTypeC,
+  client_id: t.string,
 });
 
 export type Password = t.TypeOf<typeof PasswordC>;

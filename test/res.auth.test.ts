@@ -50,6 +50,7 @@ describe("auth", () => {
     const mockAuthData: Auth.Grant.RefreshToken = {
       refresh_token: "cde456",
       grant_type: "refresh_token",
+      client_id: "123",
     };
     const mockToken = {
       access_token: "abc123",
