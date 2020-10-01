@@ -5,7 +5,7 @@ import { links } from "../../common/api";
 import * as Request from "../../common/api/request";
 import { CollectionDocC } from "../../common/structs";
 
-const OperatorC = t.type(
+export const OperatorC = t.type(
   {
     IdOperatore: t.number,
     Nome: t.string,

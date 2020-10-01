@@ -32,7 +32,17 @@ export abstract class AbstractSingleDecodeResponseFactory
 
 export class OperatorSingleDecodeResponseFactory extends AbstractSingleDecodeResponseFactory {
   output() {
-    return { Tipo: "O", Oggetto: { IdOperatore: 1 } } as Barcode.OperatorDecode;
+    return {
+      Tipo: "O",
+      Oggetto: {
+        IdOperatore: 1,
+        Nome: "foo",
+        UserName: "baz",
+        Attivo: true,
+        AbilitatoAPI: false,
+        AbilitatoAttivitaReparto: false,
+      },
+    } as Barcode.OperatorDecode;
   }
   codec() {
     return Barcode.Codec.BarcodeDecodeType.OperatorDecodeC as t.Decoder<
@@ -53,7 +63,7 @@ export class MachineSingleDecodeResponseFactory extends AbstractSingleDecodeResp
   output() {
     return {
       Tipo: "M",
-      Oggetto: { IdMacchina: this.id },
+      Oggetto: { IdMacchina: this.id, Codice: "foo", Descrizione: "test" },
     } as Barcode.MachineDecode;
   }
   codec() {
@@ -66,7 +76,10 @@ export class MachineSingleDecodeResponseFactory extends AbstractSingleDecodeResp
 
 export class HeaderSingleDecodeResponseFactory extends AbstractSingleDecodeResponseFactory {
   output() {
-    return { Tipo: "T", Oggetto: { IdTestata: 1 } } as Barcode.HeaderDecode;
+    return {
+      Tipo: "T",
+      Oggetto: { IdTestata: 1, CodiceProgressivo: "123" },
+    } as Barcode.HeaderDecode;
   }
   codec() {
     return Barcode.Codec.BarcodeDecodeType.HeaderDecodeC as t.Decoder<
@@ -78,7 +91,17 @@ export class HeaderSingleDecodeResponseFactory extends AbstractSingleDecodeRespo
 
 export class PositionSingleDecodeResponseFactory extends AbstractSingleDecodeResponseFactory {
   output() {
-    return { Tipo: "P", Oggetto: { IdPosizione: 1 } } as Barcode.PositionDecode;
+    return {
+      Tipo: "P",
+      Oggetto: {
+        IdPosizione: 1,
+        CodiceCommessa: "JOB1",
+        CodicePosizione: "POS1",
+        Descrizione: "test",
+        IdTestata: 52,
+        NumeroPezzi: 4,
+      },
+    } as Barcode.PositionDecode;
   }
   codec() {
     return Barcode.Codec.BarcodeDecodeType.PositionDecodeC as t.Decoder<
@@ -90,7 +113,15 @@ export class PositionSingleDecodeResponseFactory extends AbstractSingleDecodeRes
 
 export class PhaseSingleDecodeResponseFactory extends AbstractSingleDecodeResponseFactory {
   output() {
-    return { Tipo: "F", Oggetto: { IdFase: 1 } } as Barcode.PhaseDecode;
+    return {
+      Tipo: "F",
+      Oggetto: {
+        IdFase: 1,
+        NumeroPezzi: 7,
+        DescrizioneFase: "foo",
+        StatoAvanzamento: "completed",
+      },
+    } as Barcode.PhaseDecode;
   }
   codec() {
     return Barcode.Codec.BarcodeDecodeType.PhaseDecodeC as t.Decoder<
@@ -102,7 +133,16 @@ export class PhaseSingleDecodeResponseFactory extends AbstractSingleDecodeRespon
 
 export class ArticleSingleDecodeResponseFactory extends AbstractSingleDecodeResponseFactory {
   output() {
-    return { Tipo: "A", Oggetto: { IdArticolo: 1 } } as Barcode.ArticleDecode;
+    return {
+      Tipo: "A",
+      Oggetto: {
+        IdArticolo: 1,
+        Codice: "ART1",
+        Descrizione: "foo",
+        DescrizioneTipo: "baz",
+        Tipo: "T1",
+      },
+    } as Barcode.ArticleDecode;
   }
   codec() {
     return Barcode.Codec.BarcodeDecodeType.ArticleDecodeC as t.Decoder<
@@ -116,7 +156,12 @@ export class FreshmanSingleDecodeResponseFactory extends AbstractSingleDecodeRes
   output() {
     return {
       Tipo: "R",
-      Oggetto: { IdMatricola: 1, IdArticolo: 4, Matricola: "R1" },
+      Oggetto: {
+        IdMatricola: 1,
+        IdArticolo: 4,
+        Matricola: "R1",
+        Attiva: false,
+      },
     } as Barcode.FreshmanDecode;
   }
   codec() {
@@ -129,7 +174,16 @@ export class FreshmanSingleDecodeResponseFactory extends AbstractSingleDecodeRes
 
 export class LotSingleDecodeResponseFactory extends AbstractSingleDecodeResponseFactory {
   output() {
-    return { Tipo: "L", Oggetto: { IdLotto: 1 } } as Barcode.LotDecode;
+    return {
+      Tipo: "L",
+      Oggetto: {
+        IdLotto: 1,
+        IdArticolo: 78,
+        Codice: "LOT1",
+        Descrizione: "foo",
+        Quantita: [],
+      },
+    } as Barcode.LotDecode;
   }
   codec() {
     return Barcode.Codec.BarcodeDecodeType.LotDecodeC as t.Decoder<
@@ -143,7 +197,17 @@ export class SubdivisionSingleDecodeResponseFactory extends AbstractSingleDecode
   output() {
     return {
       Tipo: "S",
-      Oggetto: { IdSuddivisione: 1 },
+      Oggetto: {
+        IdSuddivisione: 1,
+        IdArticolo: 5,
+        IdMatricola: 66,
+        Descrizione: "foo",
+        Quantita: {
+          Disponibilita: 1,
+          Giacenza: 8,
+          UnitaMisura: { IdUnitaMisura: 7, Descrizione: "meters", Sigla: "m" },
+        },
+      },
     } as Barcode.SubdivisionDecode;
   }
   codec() {
@@ -158,7 +222,7 @@ export class CollocationSingleDecodeResponseFactory extends AbstractSingleDecode
   output() {
     return {
       Tipo: "C",
-      Oggetto: { IdCollocazione: 1 },
+      Oggetto: { IdCollocazione: 1, Codice: "C", CodiceCompleto: "CC" },
     } as Barcode.CollocationDecode;
   }
   codec() {

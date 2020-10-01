@@ -2,6 +2,10 @@ import * as TE from "fp-ts/lib/TaskEither";
 import { pipe } from "fp-ts/lib/pipeable";
 import { Barcode } from "../src";
 import { getMockAdapter, taskOf, taskFail } from "./util";
+import {
+  FreshmanSingleDecodeResponseFactory,
+  LotSingleDecodeResponseFactory,
+} from "./util/DecodeResponseFactory/SingleDecodeResponseFactory";
 
 const mockAxios = getMockAdapter();
 const mockUrl = "www.foobar.baz";
@@ -13,7 +17,7 @@ beforeEach(() => {
 
 describe("barcode-decode successful responses", () => {
   test("it decodes lot", async () => {
-    const lot = [{ Tipo: "L", Oggetto: { IdLotto: 3 } }];
+    const lot = [new LotSingleDecodeResponseFactory().output()];
 
     mockAxios
       .onPost(
@@ -34,12 +38,7 @@ describe("barcode-decode successful responses", () => {
   });
 
   test("it decodes freshman", async () => {
-    const freshman = [
-      {
-        Tipo: "R",
-        Oggetto: { IdMatricola: 3, IdArticolo: 4, Matricola: "12345" },
-      },
-    ];
+    const freshman = [new FreshmanSingleDecodeResponseFactory().output()];
 
     mockAxios
       .onPost(

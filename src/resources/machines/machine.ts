@@ -5,7 +5,7 @@ import { links } from "../../common/api";
 import * as Request from "../../common/api/request";
 import { CollectionDocC, ResourceIdC } from "../../common/structs";
 
-const MachineC = t.type(
+export const MachineC = t.type(
   {
     IdMacchina: ResourceIdC,
     Codice: t.string,
