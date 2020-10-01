@@ -9,11 +9,13 @@ import pAll from "p-all";
 
 import { Barcode } from "../src";
 import { decodeWith } from "../src/common/api/codec";
+import { NullyC } from "../src/common/structs";
 import {
   tasker,
   taskExpectError,
   taskExpectMatchObject,
   taskFail,
+  taskOf,
 } from "./util";
 import {
   AllBarcodeDecodeResponseFactory,
@@ -24,8 +26,8 @@ import {
   getSingleBarcodeResponseFactoryList,
   MismatchBarcodeDecodeResponseFactory,
   MismatchSingleDecodeResponseFactory,
-  SingleDecodeResponseFactory,
   RepeatedBarcodeDecodeResponseFactory,
+  SingleDecodeResponseFactory,
 } from "./util/DecodeResponseFactory";
 
 describe("decode with", () => {
@@ -47,6 +49,51 @@ describe("decode with", () => {
       decodeWith(t.object),
       TE.fold(taskFail, taskExpectMatchObject(obj)),
     )();
+  });
+
+  test("it do not decodes null as undefined", async () => {
+    const obj1 = { foo: "test" };
+    const obj2 = { foo: null };
+    const ObjC = t.type({ foo: t.union([t.string, t.undefined]) });
+
+    const promise = (obj: { foo: string | null }) =>
+      pipe(obj, decodeWith(ObjC), TE.fold(taskFail, taskOf));
+
+    await expect(promise(obj1)()).resolves.toMatchObject(obj1);
+    await expect(promise(obj2)()).rejects.toThrowError(
+      "Invalid value null supplied to : { foo: (string | undefined) }/foo: (string | undefined)/0: string",
+    );
+    expect.assertions(2);
+  });
+
+  test("it do not decodes undefined as null", async () => {
+    const obj1 = { foo: "test" };
+    const obj2 = { foo: undefined };
+    const ObjC = t.type({ foo: t.union([t.string, t.null]) });
+
+    const promise = (obj: { foo: string | undefined }) =>
+      pipe(obj, decodeWith(ObjC), TE.fold(taskFail, taskOf));
+
+    await expect(promise(obj1)()).resolves.toMatchObject(obj1);
+    await expect(promise(obj2)()).rejects.toThrowError(
+      "Invalid value undefined supplied to : { foo: (string | null) }/foo: (string | null)/0: string",
+    );
+    expect.assertions(2);
+  });
+
+  test("it decodes nully as null or undefined", async () => {
+    const obj1 = { foo: "test" };
+    const obj2 = { foo: undefined };
+    const obj3 = { foo: null };
+    const ObjC = t.type({ foo: NullyC(t.string) });
+
+    const promise = (obj: { foo: string | null | undefined }) =>
+      pipe(obj, decodeWith(ObjC), TE.fold(taskFail, taskOf));
+
+    await expect(promise(obj1)()).resolves.toMatchObject(obj1);
+    await expect(promise(obj2)()).resolves.toMatchObject(obj2);
+    await expect(promise(obj3)()).resolves.toMatchObject(obj3);
+    expect.assertions(3);
   });
 
   test("it returns error if basic type decoding fails", async () => {
