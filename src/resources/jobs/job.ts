@@ -30,11 +30,17 @@ const ActionC = t.intersection([
   t.partial({ Messaggio: NullableC(t.string) }),
 ]);
 
+const SearchByName = t.type({
+  Nome: t.string,
+});
+
 export type Job = t.TypeOf<typeof JobC>;
 export type Action = t.TypeOf<typeof ActionC>;
+export type SearchByName = t.TypeOf<typeof SearchByName>;
 
 export type EndPhaseQuery = QueryParams<"">;
 export type CheckActionQuery = QueryParams<"">;
+export type SearchQuery = QueryParams<"">;
 
 export function end(
   params: StandardParams<EndPhaseQuery> & {
@@ -44,7 +50,7 @@ export function end(
   return Request.postRequest<undefined, Job>({
     ...params,
     value: undefined,
-    target: links.jobs(params.IdFase).end(),
+    target: links.jobs().end(params.IdFase),
     codec: JobC,
   });
 }
@@ -56,7 +62,17 @@ export function checkAction(
 ): TE.TaskEither<Error, Action> {
   return Request.getRequest<Action>({
     ...params,
-    target: links.jobs(params.IdFase).checkAction(),
+    target: links.jobs().checkAction(params.IdFase),
     codec: ActionC,
+  });
+}
+
+export function byName(
+  params: StandardParams<SearchQuery> & { search: SearchByName },
+): TE.TaskEither<Error, Job> {
+  return Request.getRequest<Job>({
+    ...params,
+    target: links.jobs().search(params.search.Nome),
+    codec: JobC,
   });
 }

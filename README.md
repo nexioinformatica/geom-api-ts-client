@@ -64,6 +64,7 @@ latest API docs.
 | 52  | end job                               | /fasi-lavorazione/{id}/fine                    | `Job.end`                               |
 | 57  | shape collection                      | /forme                                         | `Shape.collection`                      |
 | 58  | shape details                         | /forma/{id}                                    | `Shape.single`                          |
+| 59  | job phase search by name              | /fasi-lavorazione/fasecomune/{name}            | `Job.byName`                            |
 
 \[^1\]: version is excluded from endpoint url
 

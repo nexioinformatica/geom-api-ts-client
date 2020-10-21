@@ -49,6 +49,25 @@ describe("phase progress", () => {
   });
 });
 
+describe("job phase search", () => {
+  test("it searchs by name", async () => {
+    mockAxios
+      .onGet(`https://${mockUrl}${mockVersion}/fasi-lavorazione/fasecomune/foo`)
+      .reply(200, phaseProgress);
+
+    const promise = pipe(
+      Job.byName({
+        search: { Nome: "foo" },
+        token: "my-token-123",
+        settings: { url: mockUrl },
+      }),
+      TE.fold(taskFail, taskOf),
+    )();
+
+    await expect(promise).resolves.toEqual(phaseProgress);
+  });
+});
+
 const phaseProgress = {
   IdFase: 22,
   IdPosizione: 28,
