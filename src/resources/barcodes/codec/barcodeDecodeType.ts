@@ -119,9 +119,9 @@ export const SubdivisionDecodeC = t.type({
   Oggetto: t.type({
     IdSuddivisione: ResourceIdC,
     IdArticolo: ResourceIdC,
-    IdMatricola: ResourceIdC,
     Descrizione: t.string,
     Quantita: StockC,
+    IdMatricola: NullyC(ResourceIdC),
   }),
 });
 
