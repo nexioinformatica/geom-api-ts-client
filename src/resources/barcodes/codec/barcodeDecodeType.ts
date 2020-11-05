@@ -120,7 +120,7 @@ export const SubdivisionDecodeC = t.type({
     IdSuddivisione: ResourceIdC,
     IdArticolo: ResourceIdC,
     Descrizione: t.string,
-    Quantita: StockC,
+    Quantita: CollectionDocC(StockC),
     IdMatricola: NullyC(ResourceIdC),
   }),
 });

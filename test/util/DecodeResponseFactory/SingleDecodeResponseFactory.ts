@@ -202,11 +202,17 @@ export class SubdivisionSingleDecodeResponseFactory extends AbstractSingleDecode
         IdArticolo: 5,
         IdMatricola: 66,
         Descrizione: "foo",
-        Quantita: {
-          Disponibilita: 1,
-          Giacenza: 8,
-          UnitaMisura: { IdUnitaMisura: 7, Descrizione: "meters", Sigla: "m" },
-        },
+        Quantita: [
+          {
+            Disponibilita: 1,
+            Giacenza: 8,
+            UnitaMisura: {
+              IdUnitaMisura: 7,
+              Descrizione: "meters",
+              Sigla: "m",
+            },
+          },
+        ],
       },
     } as Barcode.SubdivisionDecode;
   }
